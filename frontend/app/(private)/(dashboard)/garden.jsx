@@ -3,15 +3,15 @@ import { StyleSheet, Text } from "react-native";
 // Comonents
 import ThemedView from "../../../components/ThemedView";
 
-const Nation = () => {
+const Garden = () => {
   return (
     <ThemedView safe="true" style={styles.container}>
-      <Text>Nation Page</Text>
+      <Text>Garden Page</Text>
     </ThemedView>
   );
 };
 
-export default Nation;
+export default Garden;
 
 const styles = StyleSheet.create({
   container: {

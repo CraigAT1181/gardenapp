@@ -9,7 +9,7 @@ export default function EmailConfirmation() {
   const { user } = useUser();
 
   useEffect(() => {
-    if (user) router.replace("/town");
+    if (user) router.replace("/home");
   }, [user]);
 
   return null;

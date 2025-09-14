@@ -61,19 +61,19 @@ function ThemedDrawer(props) {
       <View style={styles.hr} />
       {/* Tab Screen */}
       <DrawerItem
-        label="Town"
-        icon={() => <Ionicons name="business" size={20} />}
-        onPress={() => goTab("town")}
+        label="Home"
+        icon={() => <Ionicons name="home" size={20} />}
+        onPress={() => goTab("home")}
+      />
+      <DrawerItem
+        label="Garden"
+        icon={() => <Ionicons name="leaf" size={20} />}
+        onPress={() => goTab("garden")}
       />
       <DrawerItem
         label="County"
         icon={() => <Ionicons name="map" size={20} />}
         onPress={() => goTab("county")}
-      />
-      <DrawerItem
-        label="Nation"
-        icon={() => <Ionicons name="flag" size={20} />}
-        onPress={() => goTab("nation")}
       />
       <View style={styles.hr} />
       {/* <ThemedView style={styles.footer}>

@@ -12,7 +12,7 @@ const GuestView = ({ children }) => {
 
   useEffect(() => {
     if (authChecked && user !== null) {
-      router.replace("/town");
+      router.replace("/home");
     }
   }, [user, authChecked]);
 

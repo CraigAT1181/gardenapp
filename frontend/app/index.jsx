@@ -15,7 +15,7 @@ const Index = () => {
 
   if (!authChecked) return <ThemedLoader />;
 
-  if (user) return <Redirect href="/town" />;
+  if (user) return <Redirect href="/home" />;
 
   return (
     <ThemedView style={styles.container}>

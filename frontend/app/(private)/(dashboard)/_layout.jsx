@@ -21,13 +21,26 @@ const DashboardLayout = () => {
       }}
     >
       <Tabs.Screen
-        name="town"
+        name="home"
         options={{
-          title: "Town",
+          title: "Home",
           tabBarIcon: ({ focused }) => (
             <Ionicons
               size={24}
-              name={focused ? "business" : "business-outline"}
+              name={focused ? "home" : "home-outline"}
+              color={focused ? t.colors.iconColorFocused : t.colors.iconColor}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="garden"
+        options={{
+          title: "Garden",
+          tabBarIcon: ({ focused }) => (
+            <Ionicons
+              size={24}
+              name={focused ? "leaf" : "leaf-outline"}
               color={focused ? t.colors.iconColorFocused : t.colors.iconColor}
             />
           ),
@@ -41,19 +54,6 @@ const DashboardLayout = () => {
             <Ionicons
               size={24}
               name={focused ? "map" : "map-outline"}
-              color={focused ? t.colors.iconColorFocused : t.colors.iconColor}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="nation"
-        options={{
-          title: "Nation",
-          tabBarIcon: ({ focused }) => (
-            <Ionicons
-              size={24}
-              name={focused ? "flag" : "flag-outline"}
               color={focused ? t.colors.iconColorFocused : t.colors.iconColor}
             />
           ),
