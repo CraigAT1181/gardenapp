@@ -13,15 +13,15 @@ import { useColorScheme } from "react-native";
 
 function PrivateLayout() {
   const scheme = useColorScheme();
-  const t = theme[scheme].colors;
+  const t = theme[scheme];
 
   return (
     <UserView>
       <Drawer
         screenOptions={{
           headerShown: false,
-          drawerActiveTintColor: t.tabBarActive,
-          drawerInactiveTintColor: t.tabBarInactive,
+          drawerActiveTintColor: t.colors.tabBarActive,
+          drawerInactiveTintColor: t.colors.tabBarInactive,
         }}
         drawerContent={(props) => <ThemedDrawer {...props} />}
       >

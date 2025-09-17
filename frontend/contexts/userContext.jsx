@@ -8,12 +8,38 @@ export function UserProvider({ children }) {
   const [user, setUser] = useState(null);
   const [authChecked, setAuthChecked] = useState(false);
 
+  async function fetchProfileByAuthUser(authUser) {
+    if (!authUser.id) return null;
+
+    try {
+      const { data: profile, error: profileError } = await supabase
+        .from("users")
+        .select("*")
+        .eq("user_id", authUser.id)
+        .single();
+
+      if (profileError) {
+        console.warn("No profile found.");
+
+        const fallBack = { id: authUser.id, email: authUser.email };
+        setUser(fallBack);
+        return fallBack;
+      }
+
+      setUser(profile);
+      return profile;
+    } catch (error) {
+      console.error("fetchProfileByAuthUser Error:", error);
+      return null;
+    }
+  }
+
   useEffect(() => {
     let alive = true;
 
     async function handleUrl(url) {
       try {
-        console.log("URL:", url);
+        // console.log("URL:", url);
 
         if (!url) return;
 
@@ -21,12 +47,12 @@ export function UserProvider({ children }) {
         if (!hash) return;
 
         const params = Object.fromEntries(new URLSearchParams(hash).entries());
-        console.log("handleUrl -> params:", params);
+        // console.log("handleUrl -> params:", params);
 
         const { access_token, refresh_token } = params;
 
         if (!access_token || !refresh_token) {
-          console.log("handleUrl -> tokens missing");
+          // console.log("handleUrl -> tokens missing");
           return;
         }
 
@@ -38,7 +64,7 @@ export function UserProvider({ children }) {
         if (error) {
           console.error("handleUrl -> setSession error:", error);
         } else {
-          console.log("handleUrl -> setSession ok, data:", data);
+          // console.log("handleUrl -> setSession ok, data:", data);
 
           const {
             data: { session },
@@ -57,7 +83,7 @@ export function UserProvider({ children }) {
         });
 
         if (!error) {
-          console.log("Email confirmed and session set!");
+          // console.log("Email confirmed and session set!");
         }
       }
     }
@@ -83,18 +109,31 @@ export function UserProvider({ children }) {
           data: { session },
         } = await supabase.auth.getSession();
         if (!alive) return;
-        setUser(session?.user ?? null);
+
+        if (session?.user) {
+          await fetchProfileByAuthUser(session.user);
+        } else {
+          setUser(null);
+        }
+
         setAuthChecked(true);
       } catch (err) {
         console.error("getSession error:", err);
+        setAuthChecked(true);
       }
     })();
 
     const {
       data: { authListener },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      console.log("onAuthStateChange -> event, session:", _event, session);
-      setUser(session?.user ?? null);
+      // console.log("onAuthStateChange -> event, session:", _event, session);
+      if (session?.user) {
+        fetchProfileByAuthUser(session.user).catch((e) =>
+          console.error("OnAuthStateChangeError", e)
+        );
+      } else {
+        setUser(null);
+      }
     });
 
     return () => {
@@ -116,8 +155,8 @@ export function UserProvider({ children }) {
     };
   }, []);
 
-  async function register(email, password) {
-    const { data, error } = await supabase.auth.signUp({
+  async function register(email, password, username) {
+    const { data: authUser, error } = await supabase.auth.signUp({
       email: email.trim(),
       password,
       options: {
@@ -127,20 +166,64 @@ export function UserProvider({ children }) {
 
     if (error) throw error;
 
-    return data;
+    if (authUser?.user) {
+      await supabase.from("users").upsert([
+        {
+          user_id: authUser.user.id,
+          email: authUser.user.email,
+          username,
+          profile_pic: null,
+        },
+      ]);
+    }
   }
 
   async function login(email, password) {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email: email.trim(),
-      password,
-    });
+    try {
+      // Sign in using Supabase auth //
+      const { data: signInData, error: signInError } =
+        await supabase.auth.signInWithPassword({
+          email: email.trim(),
+          password,
+        });
 
-    if (error) throw error;
+      if (signInError) throw signInError;
 
-    console.log("Signed in (data):", data);
+      const authUser = signInData?.user;
 
-    return data;
+      if (!authUser) throw new Error("No authenticated user returned.");
+
+      // Use user_id to obtain full user profile from Users table //
+      const { data: profile, error: profileError } = await supabase
+        .from("users")
+        .select("*")
+        .eq("user_id", authUser.id)
+        .single();
+
+      if (!profile) throw profileError;
+
+      // Request user's profile picture from Supabase bucket //
+      let avatar = null;
+
+      if (profile?.profile_pic) {
+        const { publicUrl } = await supabase.storage
+          .from("profile-pictures")
+          .getPublicUrl(profile.profile_pic);
+        avatar = publicUrl;
+      }
+
+      // Build complete User object for context
+      const fullUser = {
+        ...profile,
+        avatar,
+      };
+
+      setUser(fullUser);
+
+      return fullUser;
+    } catch (error) {
+      throw error;
+    }
   }
 
   async function logout() {

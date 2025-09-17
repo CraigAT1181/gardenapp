@@ -1,10 +1,13 @@
 // constants/theme.ts
+// Modern garden-themed light + dark tokens
+// Exported as `theme.light` and `theme.dark` for use with useColorScheme()
+
 export const theme = {
   light: {
     colors: {
       // Base
-      background: "#FAFBF7", // very light warm off-white (paper / garden beds)
-      surface: "#FFFFFF", // cards / headers
+      background: "#FFFFFF", // very light warm off-white (paper / garden beds)
+      surface: "#FAFBF7", // cards / headers
       border: "#E6E7E4", // soft stone
       overlay: "rgba(13, 24, 14, 0.06)", // subtle green tint overlay
 
@@ -51,10 +54,13 @@ export const theme = {
   dark: {
     colors: {
       // Base
-      background: "#0B0F0A", // deep near-black with green bias
-      surface: "#0F1720", // dark charcoal surface
-      border: "#1F2A24", // deep forest border
-      overlay: "rgba(255,255,255,0.04)",
+      // original deep warm brown anchor
+      entryBackground: "#2e1600", // very dark warm brown anchor
+      // slightly lifted background to avoid feeling too heavy while keeping warmth
+      background: "#80462b", // lifted dark brown (good for surfaces behind content)
+      surface: "#0F1720", // dark charcoal surface for cards / panels
+      border: "#25332B", // deep forest border (subtle, not pure black)
+      overlay: "rgba(0,0,0,0.45)", // subtle dark overlay for modals/tooltips
 
       // Text
       text: "#F6F8F2", // soft off-white for readability
@@ -62,8 +68,8 @@ export const theme = {
       muted: "#9AA098", // muted olive-gray for secondary text
       inputText: "#E6E6DA", // lighter input text
 
-      // Brand / Actions (muted versions for dark)
-      primary: "#40C057", // slightly brighter green for visibility on dark
+      // Brand / Actions (muted but visible on dark)
+      primary: "#40C057", // bright leaf green for visibility on dark
       secondary: "#C78B60", // warm terracotta accent
       success: "#34D399",
       warning: "#F59E0B",
@@ -72,12 +78,15 @@ export const theme = {
 
       // Icons
       iconColor: "#B7C1B0",
-      iconColorFocused: "#86E38F",
+      iconColorFocused: "#FFFFFF",
 
       // Tabs
-      tabBarBackground: "#0F1720",
-      tabBarBorder: "#1F2A24",
-      tabBarActive: "#86E38F",
+      // Use entryBackground as the deepest tab base and a slightly lighter
+      // background for the overall app so the tab sits distinct but harmonious.
+      tabBarBackground: "#3b1f0f", // slightly lighter than entryBackground
+      // Make border subtle and semi-transparent rather than pure white
+      tabBarBorder: "rgba(255,255,255,0.06)",
+      tabBarActive: "#FFFFFF",
       tabBarInactive: "#6B7280",
 
       // Headers
@@ -96,3 +105,5 @@ export const theme = {
     radii: { sm: 6, md: 10, lg: 16, xl: 24 },
   },
 };
+
+export default theme;

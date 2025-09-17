@@ -19,6 +19,7 @@ import errorMap from "../../utils/errorMap";
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -30,7 +31,7 @@ const Register = () => {
     setLoading(true);
 
     try {
-      await register(email, password);
+      await register(email, password, username);
 
       // Include when e-mail confirmation is turned on
       // alert("Check your email to confirm your account!");
@@ -66,6 +67,13 @@ const Register = () => {
           onChangeText={setPassword}
           value={password}
           secureTextEntry
+        />
+        <Spacer />
+        <ThemedTextInput
+          style={styles.textInput}
+          placeholder="Username"
+          onChangeText={setUsername}
+          value={username}
         />
         {error && (
           <ThemedText variant="text" color="danger">

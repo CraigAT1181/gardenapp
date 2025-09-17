@@ -3,15 +3,15 @@ import { StyleSheet, Text } from "react-native";
 // Comonents
 import ThemedView from "../../../components/ThemedView";
 
-const County = () => {
+const Listings = () => {
   return (
     <ThemedView safe="true" style={styles.container}>
-      <Text>County Page</Text>
+      <Text>Listings Page</Text>
     </ThemedView>
   );
 };
 
-export default County;
+export default Listings;
 
 const styles = StyleSheet.create({
   container: {

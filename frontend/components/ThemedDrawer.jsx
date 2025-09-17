@@ -11,12 +11,14 @@ import { Ionicons } from "@expo/vector-icons";
 import { useUser } from "../hooks/useUser";
 
 // Assets
-// import profilePic from "../assets/profilepic.png";
+import profilePic from "../assets/icon.png";
 
 // Components
 import ThemedView from "./ThemedView";
 import ThemedText from "./ThemedText";
+import ThemedLogo from "./ThemedLogo";
 import { theme } from "../constants/theme";
+import Spacer from "./Spacer";
 
 function ThemedDrawer(props) {
   const { navigation } = props;
@@ -35,16 +37,20 @@ function ThemedDrawer(props) {
 
   return (
     <DrawerContentScrollView {...props} contentContainerStyle={{ flex: 1 }}>
-      <ThemedView style={styles.header}>
-        {/* <Image
+      <ThemedView
+        style={[{ backgroundColor: t.colors.background }, styles.header]}
+      >
+        <Image
           source={profilePic}
           resizeMode="contain"
           style={styles.profilePic}
-        /> */}
-        <ThemedText>{user.email}</ThemedText>
-        <Pressable onPress={handleLogout} style={{ marginTop: 10 }}>
+        />
+        <ThemedText>Hi {user.username}!</ThemedText>
+        <Spacer height="20" />
+        <Pressable onPress={handleLogout}>
           <ThemedText color={t.colors.danger}>Logout</ThemedText>
         </Pressable>
+        <Spacer height="20" />
       </ThemedView>
 
       <View style={styles.hr} />
@@ -71,14 +77,14 @@ function ThemedDrawer(props) {
         onPress={() => goTab("garden")}
       />
       <DrawerItem
-        label="County"
-        icon={() => <Ionicons name="map" size={20} />}
-        onPress={() => goTab("county")}
+        label="Listings"
+        icon={() => <Ionicons name="newspaper" size={20} />}
+        onPress={() => goTab("listings")}
       />
       <View style={styles.hr} />
-      {/* <ThemedView style={styles.footer}>
-        
-      </ThemedView> */}
+      <ThemedView style={styles.footer}>
+        <ThemedLogo style={styles.logo} />
+      </ThemedView>
     </DrawerContentScrollView>
   );
 }
@@ -88,22 +94,27 @@ export default ThemedDrawer;
 const styles = StyleSheet.create({
   header: {
     alignItems: "center",
+    paddingTop: 20,
   },
   hr: {
     borderBottomWidth: 1,
     borderColor: "#ddd",
     width: "80%",
     alignSelf: "center",
-    marginVertical: 20,
+    marginVertical: 10,
   },
   profilePic: {
     width: 72,
     height: 72,
     borderRadius: 25,
-    marginBottom: 10,
+    marginBottom: 20,
   },
   footer: {
     alignItems: "center",
     marginTop: "auto",
+  },
+  logo: {
+    width: 150,
+    height: 150,
   },
 });

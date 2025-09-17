@@ -8,7 +8,7 @@ import ThemedView from "../components/ThemedView";
 import ThemedText from "../components/ThemedText";
 import ThemedButton from "../components/ThemedButton";
 import ThemedLoader from "../components/ThemedLoader";
-// import ThemedLogo from "../components/ThemedLogo";
+import ThemedLogo from "../components/ThemedLogo";
 
 const Index = () => {
   const { user, authChecked } = useUser();
@@ -19,7 +19,7 @@ const Index = () => {
 
   return (
     <ThemedView style={styles.container}>
-      {/* <ThemedLogo /> */}
+      <ThemedLogo style={styles.logo} />
 
       <Spacer height="40" />
       <Link href={"/login"} asChild>
@@ -44,5 +44,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+  },
+  logo: {
+    width: 250,
+    height: 250,
   },
 });

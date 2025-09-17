@@ -12,12 +12,14 @@ const DashboardLayout = () => {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          borderTopColor: t.tabBarBorder,
+          backgroundColor: t.colors.tabBarBackground,
+          borderTopColor: t.colors.tabBarBorder,
+          borderTopWidth: 2,
           paddingTop: 10,
           height: 100,
         },
-        tabBarActiveTintColor: t.tabBarActive,
-        tabBarInactiveTintColor: t.tabBarInactive,
+        tabBarActiveTintColor: t.colors.tabBarActive,
+        tabBarInactiveTintColor: t.colors.tabBarInactive,
       }}
     >
       <Tabs.Screen
@@ -47,13 +49,13 @@ const DashboardLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="county"
+        name="listings"
         options={{
-          title: "County",
+          title: "Listings",
           tabBarIcon: ({ focused }) => (
             <Ionicons
               size={24}
-              name={focused ? "map" : "map-outline"}
+              name={focused ? "newspaper" : "newspaper-outline"}
               color={focused ? t.colors.iconColorFocused : t.colors.iconColor}
             />
           ),
